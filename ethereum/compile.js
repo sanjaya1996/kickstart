@@ -29,7 +29,6 @@ const output = JSON.parse(solc.compile(JSON.stringify(campaign))).contracts[
 ];
 
 fs.ensureDirSync(buildPath);
-console.log('compiled output: ', output);
 
 for (let contract in output) {
   fs.outputJSONSync(
