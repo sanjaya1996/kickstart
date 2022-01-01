@@ -20,11 +20,11 @@ beforeEach(async () => {
 
   await factory.methods
     .createCampaign('100')
-    .send({ from: accounts[1], gas: '10000000' });
+    .send({ from: accounts[0], gas: '10000000' });
 
   [campaignAddress] = await factory.methods
     .getDeployedCampaigns()
-    .call({ from: accounts[1] });
+    .call({ from: accounts[0] });
   campaign = await new web3.eth.Contract(compiledCampaign.abi, campaignAddress);
 });
 
@@ -36,7 +36,7 @@ describe('Campaigns', () => {
 
   it('marks caller as the campaign manager', async () => {
     const manager = await campaign.methods.manager().call();
-    assert.ok(manager, accounts[1]);
+    assert.equal(manager, accounts[0]);
   });
 
   it('allows people to contributre money and marks them as approvers', async () => {
@@ -61,6 +61,18 @@ describe('Campaigns', () => {
       result = 'fail';
     }
 
-    assert.ok(result, 'fail');
+    assert.equal(result, 'fail');
+  });
+
+  it('allows a manager to make a payment request', async () => {
+    await campaign.methods
+      .createRequest('Buy batteries', '100', accounts[1])
+      .send({
+        from: accounts[0],
+        gas: '10000000',
+      });
+
+    const request = await campaign.methods.requests(0).call();
+    assert.equal(request.description, 'Buy batteries');
   });
 });

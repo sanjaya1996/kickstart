@@ -24,11 +24,11 @@ contract Campaign {
         mapping(address => bool) approvals;
     }
 
+    uint256 private numRequests = 0;
     mapping(uint256 => Request) public requests;
     address public manager;
     uint256 public minimumContribution;
     mapping(address => bool) public approvers;
-    uint256 private currentIndex = 0;
     uint256 public approversCount = 0;
 
     modifier restricted() {
@@ -53,15 +53,13 @@ contract Campaign {
         uint256 value,
         address payable recipient
     ) public payable restricted {
-        Request storage newRequestInStorage = requests[currentIndex];
+        Request storage newRequestInStorage = requests[numRequests++];
 
         newRequestInStorage.description = description;
         newRequestInStorage.value = value;
         newRequestInStorage.recipient = recipient;
         newRequestInStorage.complete = false;
         newRequestInStorage.approvalCount = 0;
-
-        currentIndex++;
     }
 
     function approveRequest(uint256 index) public {
