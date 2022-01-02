@@ -16,7 +16,6 @@ class Layout extends Component {
         </Head>
         <Header />
         {this.props.children}
-        <h1> This is footer </h1>
       </Container>
     );
   }
