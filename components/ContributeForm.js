@@ -19,12 +19,12 @@ class ContributeForm extends React.Component {
         value: web3.utils.toWei(this.state.value, 'ether'),
       });
 
-      Router.replaceRoute(`/campaign/${this.props.address}`);
+      Router.replaceRoute(window.location.pathname);
     } catch (err) {
       this.setState({ errorMessage: err.message });
     }
 
-    this.setState({ loading: false });
+    this.setState({ loading: false, value: '' });
   };
 
   render() {

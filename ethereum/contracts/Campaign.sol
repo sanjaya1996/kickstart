@@ -42,10 +42,14 @@ contract Campaign {
     }
 
     function contribute() public payable {
-        require(msg.value > minimumContribution);
+        bool isExisted = approvers[msg.sender];
 
-        approvers[msg.sender] = true;
-        approversCount++;
+        if (!isExisted) {
+            require(msg.value > minimumContribution);
+
+            approvers[msg.sender] = true;
+            approversCount++;
+        }
     }
 
     function createRequest(

@@ -19,7 +19,7 @@ const deploy = async () => {
     .send({ from: accounts[0] });
 
   console.log('Contract deployed to', result.options.address);
-  // Address: 0xF80E70D275160D2c0aBbE176DB5Ef81C1dc2529C
+  // Address: 0xf54c6bA116493cA04bF63788dB348A3D9b1dfb64
 
   provider.engine.stop();
 };
